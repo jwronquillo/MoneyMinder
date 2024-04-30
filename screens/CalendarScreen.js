@@ -77,8 +77,8 @@ const CalendarScreen = () => {
                         <Text style={styles.billname}>{bill.name}</Text>
                         <Text>₱ {bill.amount}</Text>
                         <Text>Status: {bill.status}</Text>
-                        <TouchableOpacity onPress={() => handleDeleteBill(bill.id)} style={styles.deleteButton}>
-                            <Ionicons name="trash-outline" size={24} color="red" />
+                        <TouchableOpacity onPress={() => handleDeleteBill(bill.id)}>
+                            <Ionicons name="backspace-sharp" size={35} color="red" />
                         </TouchableOpacity>
 
                     </View>
@@ -164,9 +164,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-
         padding: 15,
         borderRadius: 10,
+        marginTop: 15,
         backgroundColor: '#fff',
         // Shadow properties
         shadowColor: '#000',
@@ -184,10 +184,7 @@ const styles = StyleSheet.create({
         bottom: 20,
         right: 20,
     },
-    deleteButton: {
-        borderRadius: 50, // Adjust the value to make it more or less round
-        padding: 10,
-    },
+    
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
