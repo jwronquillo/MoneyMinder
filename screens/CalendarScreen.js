@@ -87,7 +87,7 @@ const CalendarScreen = () => {
             </View>
             
             <View style={styles.addButton}>
-                <Ionicons name="add-circle" size={70} color="tomato" onPress={() => setIsModalVisible(true)} />
+                <Ionicons name="add-circle" size={70} color="#195fe6" onPress={() => setIsModalVisible(true)} />
             </View>
             <Modal
                 visible={isModalVisible}

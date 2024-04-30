@@ -95,7 +95,9 @@ const MainScreen = ({ navigation }) => {
                                     <Text>Status: {bill.status}</Text>
                                     </View>
                                 {bill.status !== 'paid' && (
-                                    <Button title="Paid" onPress={() => handlePaidButtonPress(bill.id)} />
+                                    <TouchableOpacity style={styles.paidButton} onPress={() => handlePaidButtonPress(bill.id)}>
+                                    <Text style={styles.buttonText}>Paid</Text>
+                                    </TouchableOpacity>
                                 )}
                             </View>
                         ))}
@@ -177,6 +179,17 @@ const styles = StyleSheet.create({
     },
     billname: {
         fontSize: 25,
+        fontWeight: 'bold',
+    },
+    paidButton: {
+        backgroundColor: '#195fe6', // Change the background color if needed
+        borderRadius: 20, // Adjust the value to make it more or less round
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+    },
+    buttonText: {
+        fontSize: 18,
+        color: 'white',
         fontWeight: 'bold',
     },
 });
