@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, StyleSheet, Modal, TextInput } from "react-native";
+import { View, Text, Button, StyleSheet, Modal, TextInput, TouchableOpacity } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { deleteBill, saveBill, getAllBills } from "../Storage";
 import { Ionicons } from '@expo/vector-icons';
@@ -57,14 +57,14 @@ const CalendarScreen = () => {
     return(
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.headerText}>Calendar Screen</Text>
+                <Text style={styles.headerText}>UPCOMING BILLS</Text>
             </View>
             <Calendar
                 style={styles.calendar}
                 current={selectedDay}
                 markedDates={{
-                    [selectedDay]: { selected: true, selectedColor: 'tomato' },
-                    [new Date().toISOString().split('T')[0]]: { startingDay: true, color: 'tomato', textColor: 'white' },
+                    [selectedDay]: { selected: true, selectedColor: '#195fe6' },
+                    [new Date().toISOString().split('T')[0]]: { startingDay: true, color: '#195fe6', textColor: 'white' },
                 }}
                 onDayPress={(day) => {
                     setSelectedDay(day.dateString);
@@ -74,16 +74,20 @@ const CalendarScreen = () => {
                 <Text style={styles.billsTitle}>Bills Due on {selectedDay}: </Text>
                 {bills.map((bill) => (
                     <View key={bill.id} style={styles.bill}>
-                        <Text>{bill.name}</Text>
+                        <Text style={styles.billname}>{bill.name}</Text>
                         <Text>₱ {bill.amount}</Text>
                         <Text>Status: {bill.status}</Text>
-                        <Button title="Delete" onPress={() => handleDeleteBill(bill.id)} />
+                        <TouchableOpacity onPress={() => handleDeleteBill(bill.id)} style={styles.deleteButton}>
+                            <Ionicons name="trash-outline" size={24} color="red" />
+                        </TouchableOpacity>
+
                     </View>
                 ))}
+                
             </View>
             
             <View style={styles.addButton}>
-                <Ionicons name="add-circle" size={70} color="tomato" onPress={() => setIsModalVisible(true)} />
+                <Ionicons name="add-circle" size={70} color="#195fe6" onPress={() => setIsModalVisible(true)} />
             </View>
             <Modal
                 visible={isModalVisible}
@@ -94,7 +98,7 @@ const CalendarScreen = () => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <TextInput
-                            style={styles.input}
+                            style={styles.input} 
                             placeholder="Bill Title"
                             value={newBillName}
                             onChangeText={setNewBillName}
@@ -120,18 +124,29 @@ const CalendarScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
-        backgroundColor: '#fff',
+        padding: 30,
+        backgroundColor: '#eff1f1',
     },
     header: {
         marginBottom: 20,
     },
     headerText: {
-        fontSize: 20,
+        fontSize: 30,
         fontWeight: 'bold',
+        alignSelf: 'center',
+        
     },
     calendar: {
         marginBottom: 20,
+        borderRadius: 10,
+        shadowColor: '#000',
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
     },
     billsContainer: {
         marginTop: 20,
@@ -141,20 +156,37 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 10,
     },
+    billname: {
+        fontWeight: 'bold',
+        fontSize: 20,
+    },
     bill:{
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: 10,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
+
+        padding: 15,
+        borderRadius: 10,
+        backgroundColor: '#fff',
+        // Shadow properties
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
+        elevation: 3,
+
     },
     addButton: {
         position: 'absolute',
         bottom: 20,
         right: 20,
+    },
+    deleteButton: {
+        borderRadius: 50, // Adjust the value to make it more or less round
+        padding: 10,
     },
     modalContainer: {
         flex: 1,
@@ -180,6 +212,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
+
 });
 
 export default CalendarScreen;

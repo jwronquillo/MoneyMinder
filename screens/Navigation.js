@@ -23,7 +23,7 @@ const Navigation = () => {
                 }}
             >
                 <Tab.Screen
-                    name="Main"
+                    name="MainScreen"
                     component={MainScreen}
                     options={{
                         tabBarLabel: 'Home',
