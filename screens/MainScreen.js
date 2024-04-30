@@ -60,17 +60,18 @@ const MainScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.category} onPress={() => handleCategoryPress(overdueBills)}>
+            <Text style={styles.header}>MONEY MINDER</Text>
+            <TouchableOpacity style={[styles.category, styles.category1]} onPress={() => handleCategoryPress(overdueBills)}>
                 <Text style={styles.categoryTitle}>Overdue Bills</Text>
                 <Text style={styles.categoryContent}>Total: {overdueBills.length}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.category} onPress={() => handleCategoryPress(soonDueBills)}>
+            <TouchableOpacity style={[styles.category, styles.category2]} onPress={() => handleCategoryPress(soonDueBills)}>
                 <Text style={styles.categoryTitle}>Soon Due Bills</Text>
                 <Text style={styles.categoryContent}>Total: {soonDueBills.length}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.category} onPress={() => handleCategoryPress(onDueBills)}>
+            <TouchableOpacity style={[styles.category, styles.category3]} onPress={() => handleCategoryPress(onDueBills)}>
                 <Text style={styles.categoryTitle}>On Due Bills</Text>
                 <Text style={styles.categoryContent}>Total: {onDueBills.length}</Text>
             </TouchableOpacity>
@@ -87,17 +88,20 @@ const MainScreen = ({ navigation }) => {
                         <Text style={styles.modalTitle}>Bills</Text>
                         {selectedCategory.map(bill => (
                             <View key={bill.id} style={styles.bill}>
-                                <Text>{bill.name}</Text>
-                                <Text>₱ {bill.amount}</Text>
-                                <Text>{bill.dueDate}</Text>
-                                <Text>{bill.status}</Text>
+                                    <View>
+                                    <Text style={styles.billname}>{bill.name}</Text>
+                                    <Text>₱ {bill.amount}</Text>
+                                    <Text>{bill.dueDate}</Text>
+                                    <Text>Status: {bill.status}</Text>
+                                    </View>
                                 {bill.status !== 'paid' && (
                                     <Button title="Paid" onPress={() => handlePaidButtonPress(bill.id)} />
                                 )}
                             </View>
                         ))}
+                        <Button title="Close" onPress={() => setModalVisible(false)}  />
                     </View>
-                    <Button title="Close" onPress={() => setModalVisible(false)} />
+                    
                 </View>
             </Modal>
         </View>
@@ -107,19 +111,41 @@ const MainScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
+        padding: 50,
+        marginTop: 30,
+
+    },
+    header: {
+        fontSize: 50,
+        fontWeight: 'bold',
+        alignSelf: 'center',
+        marginBottom: 50,
+        color: '#195fe6'
     },
     category: {
         marginBottom: 20,
-        borderWidth: 1,
-        padding: 10,
+        padding: 20,
+        borderRadius: 20,
+
+    },
+    category1:{
+        backgroundColor: 'tomato'
+    },
+    category2:{
+        backgroundColor: '#e3b437'
+    },
+    category3:{
+        backgroundColor: '#2fd087'
     },
     categoryTitle: {
-        fontSize: 18,
+        fontSize: 30,
         fontWeight: 'bold',
+        color: '#fff', // White text color
+        marginBottom: 5,
     },
     categoryContent: {
-        fontSize: 16,
+        fontSize: 20,
+        color: '#fff', // White text color
     },
     modalContainer: {
         flex: 1,
@@ -135,7 +161,7 @@ const styles = StyleSheet.create({
         width: '80%',
     },
     modalTitle: {
-        fontSize: 20,
+        fontSize: 40,
         fontWeight: 'bold',
         marginBottom: 10,
     },
@@ -148,6 +174,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 5,
+    },
+    billname: {
+        fontSize: 25,
+        fontWeight: 'bold',
     },
 });
 
