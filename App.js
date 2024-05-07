@@ -34,6 +34,7 @@ export default function App() {
     };
   }, []);
 
+  /* Modify Notification to alert when bills are Overdue, SoonDue, OnDue */
   const registerForPushNotificationsAsync = async () => {
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
