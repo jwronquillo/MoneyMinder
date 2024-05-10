@@ -213,7 +213,8 @@ const styles = StyleSheet.create({
     content: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: '#9ddfff',
     },
     MoneyMinder: {
         marginTop: 40,

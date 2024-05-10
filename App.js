@@ -1,9 +1,37 @@
 import React, { useEffect } from "react";
+<<<<<<< HEAD
+=======
 import * as Notifications from 'expo-notifications';
+>>>>>>> 92abf1e9adad7fb0ae7416efc9f403043daf4609
 import Navigation from "./screens/Navigation";
+import { getAllBills } from "./Storage";
 
 export default function App() {
   useEffect(() => {
+<<<<<<< HEAD
+    checkUpcomingBills();
+  }, []);
+
+  const checkUpcomingBills = async () => {
+    try {
+      const parsedBills = await getAllBills();
+      const today = new Date();
+      const sevenDaysFromNow = new Date(today);
+      sevenDaysFromNow.setDate(today.getDate() + 7);
+
+      const upcomingBills = parsedBills.filter(
+        (bill) => new Date(bill.dueDate) <= sevenDaysFromNow
+      );
+
+      if (upcomingBills.length > 0) {
+        const message =
+          "You have bills due within the next 7 days. Check your bills!";
+        alert(message);
+      }
+    } catch (error) {
+      console.error("Error checking upcoming bills:", error);
+    }
+=======
     registerForPushNotificationsAsync();
 
     Notifications.scheduleNotificationAsync({
@@ -48,6 +76,7 @@ export default function App() {
     }
     const token = (await Notifications.getExpoPushTokenAsync()).data;
     console.log(token);
+>>>>>>> 92abf1e9adad7fb0ae7416efc9f403043daf4609
   };
 
   return <Navigation />;
