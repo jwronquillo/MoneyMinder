@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, FlatList, Pressable, Modal, Button, ScrollView } from "react-native";
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
+import { Image } from 'react-native';
 
 const TipsScreen = () => {
     const [modalVisible1, setModalVisible1] = useState(false);
@@ -66,18 +67,15 @@ const TipsScreen = () => {
                         <View style={styles.modalTitle}>
                             <Text style={styles.modalTitleText}>Ways to Save Money</Text>
                         </View>
-                        <Text style={{ fontWeight: 'bold' }}>#1. Track Your Expenses</Text>
-                        <Text>Understanding your expenses is the first step in learning to save. Record your expsenses such as household utilities, groceries, and more. </Text>
-                        <Text>      </Text>
-                        <Text style={{ fontWeight: 'bold' }}>#2. Set Specific Saving Goals</Text>
-                        <Text>Think of a purpose for both short and long term savings. You can estimate how much you will need and how long it will take to achieve.</Text>
-                        <Text style={{ fontStyle: 'italic' }}>Short-term savings: Vacation trip, Emergency Fund, or New Phone</Text>
-                        <Text style={{ fontStyle: 'italic' }}>Long-term savingss: Retirement Fund, Education Fund, Insurances</Text>
-                        <Text>      </Text>
-                        <Text style={{ fontWeight: 'bold' }}>#3. Determine Your Financial Priorities</Text>
-                        <Text>Knowing your expenses and saving goals will impact how you will save. Think on how you will allocate your money in expenses, short and long term savings. For example, if you need to repair something in your car, you might want to allocate a bit more compare to other savings such as retirement plan because you need the money for the repair immediately.</Text>
-                        <Text>      </Text>
-                        <Text style={{ fontStyle: 'italic' }}>References:https://bettermoneyhabits.bankofamerica.com/en/saving-budgeting/ways-to-save-money</Text>
+                        <Text style={styles.modaloneText}>#1. Budgeting</Text>
+                        <Text style={styles.modaloneText}>#2. Cutting unnecessary expenses</Text>
+                        <Text style={styles.modaloneText}>#3. Meal planning and cooking at home</Text>
+                        <Text style={styles.modaloneText}>#4. Utilizing discounts and coupons</Text>
+                        <Text style={styles.modaloneText}>#5. Saving energy and water</Text>
+                        <Text style={styles.modaloneText}>#6. DIY projects</Text>
+                        <Text style={styles.modaloneText}>#7. Limiting impulse purchases</Text>
+                        <Text style={styles.modaloneText}>#8. Using public transportation or carpooling</Text>
+                        <Text style={styles.modaloneText}>#9. Buying in bulk</Text>
                         
                     </ScrollView>
                     <Pressable style={styles.closeButton} onPress={() => setModalVisible1(false)}>
@@ -239,6 +237,7 @@ const styles = StyleSheet.create({
     button: {
         paddingVertical: '10%',
         paddingHorizontal: '7%',
+        width: '100%',
         backgroundColor: '#A6DFAE',
         borderRadius: 25,
         shadowColor: '#000',
@@ -255,7 +254,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between', // Aligns items to the ends of the container
-        paddingHorizontal: 10,
         
     },
     buttonText: {
@@ -275,7 +273,7 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 10,
         width: '80%',
-        maxHeight: '75%', // Limiting the maximum height
+        maxHeight: '60%', // Limiting the maximum height
         elevation: 5, // Add elevation for a shadow effect
     },
     modalTitle: {
@@ -285,9 +283,13 @@ const styles = StyleSheet.create({
     },
     modalTitleText: {
         marginLeft: 5,
-        fontSize: 25,
+        fontSize: 40,
         fontWeight: 'bold',
         color: '#333333', // Dark color for the title text
+    },
+    modaloneText:{
+        fontSize: 25,
+        fontWeight: 'bold',
     },
     closeButton: {
         backgroundColor: '#A6DFAE', // Coral color for the button

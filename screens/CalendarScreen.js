@@ -59,6 +59,7 @@ const CalendarScreen = () => {
             <View style={styles.header}>
                 <Text style={styles.headerText}>UPCOMING BILLS</Text>
             </View>
+            <View style={styles.calendarcontainer}>
             <Calendar
                 style={styles.calendar}
                 current={selectedDay}
@@ -70,6 +71,7 @@ const CalendarScreen = () => {
                     setSelectedDay(day.dateString);
                 }}
             />
+            </View>
             <View style={styles.billsContainer}>
                 <Text style={styles.billsTitle}>Bills Due on {selectedDay}: </Text>
                 {bills.map((bill) => (
@@ -78,7 +80,7 @@ const CalendarScreen = () => {
                         <Text>₱ {bill.amount}</Text>
                         <Text>Status: {bill.status}</Text>
                         <TouchableOpacity onPress={() => handleDeleteBill(bill.id)}>
-                            <Ionicons name="backspace-sharp" size={35} color="red" />
+                            <Ionicons name="close-circle" size={35} color="red" />
                         </TouchableOpacity>
 
                     </View>
@@ -142,7 +144,9 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         
     },
-    calendar: {
+    calendarcontainer:{
+        padding: 5,
+        backgroundColor: 'white',
         marginBottom: 20,
         borderRadius: 10,
         shadowColor: '#000',
@@ -153,6 +157,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    },
+    calendar: {
+        
     },
     billsContainer: {
         marginTop: 20,

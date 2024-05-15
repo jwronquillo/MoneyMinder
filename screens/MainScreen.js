@@ -11,14 +11,16 @@ const MainScreen = ({ navigation }) => {
     const [selectedCategory, setSelectedCategory] = useState([]);
 
     // Function to load bills data
+
     const loadBills = async () => {
         try {
             const parsedBills = await getAllBills();
             const today = new Date().toISOString().split('T')[0];
-
+            const firstWeekEndDate = calculateDate(8);
+            
             const overdue = parsedBills.filter(bill => bill.dueDate < today && bill.status !== 'paid');
             const soonDue = parsedBills.filter(bill => bill.dueDate >= today && bill.dueDate <= calculateDate(7) && bill.status !== 'paid');
-            const onDue = parsedBills.filter(bill => bill.dueDate === today && bill.status !== 'paid');
+            const onDue = parsedBills.filter(bill => bill.dueDate >= firstWeekEndDate && bill.status !== 'paid');
 
             setOverdueBills(overdue);
             setSoonDueBills(soonDue);
@@ -162,7 +164,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     categoryContent: {
-        fontSize: 20,
+        fontSize: 30,
         color: '#fff', // White text color
     },
     modalContainer: {
@@ -224,6 +226,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         justifyContent: 'center',
         alignItems: 'center',
+        shadowColor: '#000', // Add shadow for a card-like effect
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     paidButtonText: {
         fontSize: 16,
