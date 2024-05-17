@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, StyleSheet, Modal, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, Button, StyleSheet, Modal, TextInput, TouchableOpacity, Alert } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { deleteBill, saveBill, getAllBills } from "../Storage";
 import { Ionicons } from '@expo/vector-icons';
@@ -59,6 +59,7 @@ const CalendarScreen = () => {
             <View style={styles.header}>
                 <Text style={styles.headerText}>UPCOMING BILLS</Text>
             </View>
+            <View style={styles.calendarcontainer}>
             <Calendar
                 style={styles.calendar}
                 current={selectedDay}
@@ -70,6 +71,7 @@ const CalendarScreen = () => {
                     setSelectedDay(day.dateString);
                 }}
             />
+            </View>
             <View style={styles.billsContainer}>
                 <Text style={styles.billsTitle}>Bills Due on {selectedDay}: </Text>
                 {bills.map((bill) => (
@@ -78,7 +80,7 @@ const CalendarScreen = () => {
                         <Text>₱ {bill.amount}</Text>
                         <Text>Status: {bill.status}</Text>
                         <TouchableOpacity onPress={() => handleDeleteBill(bill.id)}>
-                            <Ionicons name="backspace-sharp" size={35} color="red" />
+                            <Ionicons name="close-circle" size={35} color="red" />
                         </TouchableOpacity>
 
                     </View>
@@ -97,22 +99,28 @@ const CalendarScreen = () => {
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
+                    <Text style={styles.modalTitle}>Bill title</Text>
                         <TextInput
                             style={styles.input} 
-                            placeholder="Bill Title"
+                            placeholder="Enter Bill Title"
                             value={newBillName}
                             onChangeText={setNewBillName}
                         />
+                    <Text style={styles.modalTitle}>Amount</Text>
                         <TextInput
                             style={styles.input}
-                            placeholder="Amount"
+                            placeholder="Enter Amount"
                             keyboardType="numeric"
                             value={newBillAmount}
                             onChangeText={setNewBillAmount}
                         />
                         <View style={styles.buttonContainer}>
-                            <Button title="Confirm" onPress={addBill} />
-                            <Button title="Cancel" color="red" onPress={() => setIsModalVisible(false)} />
+                            <TouchableOpacity style={styles.confirmButton} onPress={addBill}>
+                                            <Text style={styles.buttonText}>Confirm</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.cancelButton} onPress={() => setIsModalVisible(false)}>
+                                            <Text style={styles.buttonText}>Cancel</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
@@ -125,7 +133,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 30,
-        backgroundColor: '#eff1f1',
+        backgroundColor: '#9ddfff',
     },
     header: {
         marginBottom: 20,
@@ -136,7 +144,9 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         
     },
-    calendar: {
+    calendarcontainer:{
+        padding: 5,
+        backgroundColor: 'white',
         marginBottom: 20,
         borderRadius: 10,
         shadowColor: '#000',
@@ -147,6 +157,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    },
+    calendar: {
+        
     },
     billsContainer: {
         marginTop: 20,
@@ -193,14 +206,27 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         backgroundColor: '#fff',
+        borderRadius: 20,
         padding: 20,
-        borderRadius: 10,
-        elevation: 5,
         width: '80%',
+        maxHeight: '80%',
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+    },
+    modalTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 5,
     },
     input: {
         marginBottom: 10,
-        padding: 10,
+        padding: 15,
         borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 5,
@@ -208,6 +234,28 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        marginTop: 20,
+    },
+    confirmButton: {
+        backgroundColor: '#195fe6',
+        paddingVertical: 12,
+        paddingHorizontal: 25,
+        borderRadius: 10,
+        marginRight: 10,
+        width: '40%',
+    },
+    cancelButton: {
+        backgroundColor: '#ff5757',
+        paddingVertical: 12,
+        paddingHorizontal: 25,
+        borderRadius: 10,
+        width: '40%',
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        alignSelf: 'center'
     },
 
 });

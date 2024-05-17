@@ -11,14 +11,16 @@ const MainScreen = ({ navigation }) => {
     const [selectedCategory, setSelectedCategory] = useState([]);
 
     // Function to load bills data
+
     const loadBills = async () => {
         try {
             const parsedBills = await getAllBills();
             const today = new Date().toISOString().split('T')[0];
-
+            const firstWeekEndDate = calculateDate(8);
+            
             const overdue = parsedBills.filter(bill => bill.dueDate < today && bill.status !== 'paid');
             const soonDue = parsedBills.filter(bill => bill.dueDate >= today && bill.dueDate <= calculateDate(7) && bill.status !== 'paid');
-            const onDue = parsedBills.filter(bill => bill.dueDate === today && bill.status !== 'paid');
+            const onDue = parsedBills.filter(bill => bill.dueDate >= firstWeekEndDate && bill.status !== 'paid');
 
             setOverdueBills(overdue);
             setSoonDueBills(soonDue);
@@ -86,24 +88,29 @@ const MainScreen = ({ navigation }) => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <Text style={styles.modalTitle}>Bills</Text>
-                        {selectedCategory.map(bill => (
-                            <View key={bill.id} style={styles.bill}>
-                                    <View>
-                                    <Text style={styles.billname}>{bill.name}</Text>
-                                    <Text>₱ {bill.amount}</Text>
-                                    <Text>{bill.dueDate}</Text>
-                                    <Text>Status: {bill.status}</Text>
-                                    </View>
-                                {bill.status !== 'paid' && (
-                                    <TouchableOpacity style={styles.paidButton} onPress={() => handlePaidButtonPress(bill.id)}>
-                                    <Text style={styles.buttonText}>Paid</Text>
-                                    </TouchableOpacity>
-                                )}
+                        {selectedCategory.length === 0 ? (
+                            <View style={styles.noBillsContainer}>
+                                <Text style={styles.noBillsText}>No bills yet</Text>
                             </View>
-                        ))}
+                        ) : (
+                            selectedCategory.map(bill => (
+                                <View key={bill.id} style={styles.bill}>
+                                    <View style={styles.billDetails}>
+                                        <Text style={styles.billname}>{bill.name}</Text>
+                                        <Text style={styles.billAmount}>₱ {bill.amount}</Text>
+                                        <Text style={styles.billDueDate}>{bill.dueDate}</Text>
+                                        <Text style={styles.billStatus}>Status: {bill.status}</Text>
+                                    </View>
+                                    {bill.status !== 'paid' && (
+                                        <TouchableOpacity style={styles.paidButton} onPress={() => handlePaidButtonPress(bill.id)}>
+                                            <Text style={styles.buttonText}>Paid</Text>
+                                        </TouchableOpacity>
+                                    )}
+                                </View>
+                            ))
+                        )}
                         <Button title="Close" onPress={() => setModalVisible(false)}  />
                     </View>
-                    
                 </View>
             </Modal>
         </View>
@@ -114,20 +121,31 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 50,
-        marginTop: 30,
+        backgroundColor: '#9ddfff',
 
     },
     header: {
-        fontSize: 40,
+        fontSize: 60,
         fontWeight: 'bold',
         alignSelf: 'center',
+        marginTop: 20,
         marginBottom: 50,
-        color: '#195fe6'
+        color: '#007BFF',
+        textShadowColor: 'rgba(25, 95, 230, 0.5)', // Adjust shadow color and opacity
+        textShadowOffset: { width: 0, height: 4 }, // Adjust the offset for the shadow
+        textShadowRadius: 10, // Adjust the radius of the shadow
     },
+    
     category: {
         marginBottom: 20,
-        padding: 20,
+        padding: 30,
         borderRadius: 20,
+        height: '20%',
+        shadowColor: '#000', // Add shadow for a card-like effect
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
 
     },
     category1:{
@@ -140,13 +158,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#2fd087'
     },
     categoryTitle: {
-        fontSize: 30,
+        fontSize: 40,
         fontWeight: 'bold',
         color: '#fff', // White text color
         marginBottom: 5,
     },
     categoryContent: {
-        fontSize: 20,
+        fontSize: 30,
         color: '#fff', // White text color
     },
     modalContainer: {
@@ -156,7 +174,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        backgroundColor: '#fff',
+        backgroundColor: '#06f9dc',
         padding: 20,
         borderRadius: 10,
         elevation: 5,
@@ -171,27 +189,68 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 10,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
+        marginBottom: 20,
+        padding: 20,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    billDetails: {
+        flex: 1,
+        marginLeft: 10,
     },
     billname: {
-        fontSize: 25,
+        fontSize:25,
         fontWeight: 'bold',
+    },
+    billAmount: {
+        fontSize: 16,
+        color: '#666',
+    },
+    billDueDate: {
+        fontSize: 16,
+        color: '#666',
+    },
+    billStatus: {
+        fontSize: 16,
+        color: '#666',
     },
     paidButton: {
-        backgroundColor: '#195fe6', // Change the background color if needed
-        borderRadius: 20, // Adjust the value to make it more or less round
+        backgroundColor: '#06f9dc',
+        borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000', // Add shadow for a card-like effect
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
-    buttonText: {
-        fontSize: 18,
-        color: 'white',
+    paidButtonText: {
+        fontSize: 16,
+        color: '#fff',
         fontWeight: 'bold',
     },
+
+    noBillsContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    noBillsText: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#666',
+        textAlign: 'center',
+        paddingHorizontal: 20,
+        marginBottom: 20,
+    },
+    
 });
 
 export default MainScreen;
